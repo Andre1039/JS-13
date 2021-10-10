@@ -174,13 +174,24 @@ let arrProduct = [],
 
 
 addCart.addEventListener('click', function () {
+
+    if(arrProduct.length == 0) {
+        totalName = '';
+        totalKcall = 0;
+        totalPrice = 0;
+        console.log(totalName);
+        console.log(totalKcall);
+        console.log(totalPrice);
+    }
+
     for (const key in product) {
         // console.log(product[key]);
         if (product[key].amount > 0) {
-            arrProduct.push(product[key])
+            arrProduct.push(product[key]);
             for (const newKey in product[key]) {
                 if (product[key][newKey] === true) {
-                    product[key].name += extraProduct[newKey].name
+                    product[key].name += extraProduct[newKey].name;
+                    extraProduct[newKey].name = '';
                 }
             }
         }
@@ -189,8 +200,11 @@ addCart.addEventListener('click', function () {
     for (let i = 0; i < arrProduct.length; i++) {
         totalPrice += arrProduct[i].price * arrProduct[i].amount;
         totalKcall += arrProduct[i].kcall * arrProduct[i].amount;
-        totalName += '\n' + arrProduct[i].name + ' ' + arrProduct[i].amount + 'шт.' + '\n'
+        totalName += '\n' + arrProduct[i].name + ' ' + arrProduct[i].amount + 'шт.' + '\n';
+        console.log(totalName);
     }
+
+    
 
     if(totalKcall == 0 && totalName == '' && totalPrice == 0) {
         Alert.style.opacity = '1';
@@ -201,6 +215,7 @@ addCart.addEventListener('click', function () {
 
 
     }else{
+
        receiptOut.innerHTML = `Вы купили: \n ${totalName} \n Каллорийность ${totalKcall} \n Общая сумма ${totalPrice}`
 
     receipt.classList.remove('active');
@@ -208,7 +223,7 @@ addCart.addEventListener('click', function () {
     receipt.style.display = 'flex';
 
     setTimeout(function () {
-        receipt.style.opacity = '1'
+        receipt.style.opacity = '1';
     }, 200)
 
     document.body.style.overflow = 'hidden';
@@ -220,7 +235,20 @@ addCart.addEventListener('click', function () {
      ` 
     }
 
-    
+      
+})
+
+receipt.addEventListener('click', () => {
+    arrProduct.splice(0, arrProduct.length);
+    console.log(arrProduct);
+
+    receipt.classList.add('active');
+
+    receipt.style.display = 'none';
+
+    document.body.style.overflow = '';
+
+    receipt.style.opacity = '0';
 })
 
 
